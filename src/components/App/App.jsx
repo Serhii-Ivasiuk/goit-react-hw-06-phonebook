@@ -21,39 +21,25 @@ export class App extends Component {
     filter: '',
   };
 
-  checkExistContact = (name, number) => {
+  handleSubmit = (values, actions) => {
+    const { name, number } = values;
+    const { resetForm } = actions;
     const { contacts } = this.state;
 
     const isExistName = contacts.some(item => item.name === name);
     const isExistNumber = contacts.find(item => item.number === number);
 
     if (isExistName) {
-      alert(`Contact with name "${name}" is already in contacts`);
-      return true;
+      return alert(`Contact with name "${name}" is already in contacts`);
     } else if (isExistNumber) {
-      alert(
+      return alert(
         `Number "${number}" is already in contacts with name "${isExistNumber.name}"`
       );
-      return true;
-    }
-  };
-
-  handleAddContact = ({ name, number }) => {
-    const isExist = this.checkExistContact(name, number);
-
-    if (isExist) {
-      return;
     }
 
-    const contact = {
-      id: nanoid(),
-      name,
-      number,
-    };
+    this.addNewContact(name, number);
 
-    this.setState(prevState => {
-      return { contacts: [contact, ...prevState.contacts] };
-    });
+    resetForm();
   };
 
   handleFilterInput = event => {
@@ -67,6 +53,18 @@ export class App extends Component {
   handleRemoveContact = id => {
     this.setState(prevState => {
       return { contacts: prevState.contacts.filter(item => item.id !== id) };
+    });
+  };
+
+  addNewContact = (name, number) => {
+    const contact = {
+      id: nanoid(),
+      name,
+      number,
+    };
+
+    this.setState(prevState => {
+      return { contacts: [contact, ...prevState.contacts] };
     });
   };
 
@@ -86,7 +84,7 @@ export class App extends Component {
     return (
       <Container>
         <h1>Phonebook</h1>
-        <ContactForm onAddContact={this.handleAddContact} />
+        <ContactForm onSubmit={this.handleSubmit} />
 
         <h2>Contacts</h2>
         <Filter value={filter} onChange={this.handleFilterInput} />

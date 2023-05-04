@@ -25,21 +25,14 @@ const createValidationSchema = () => {
   });
 };
 
-export const ContactForm = ({ onAddContact }) => {
-  const handleSubmit = (values, actions) => {
-    const { resetForm } = actions;
-
-    onAddContact(values);
-    resetForm();
-  };
-
+export const ContactForm = ({ onSubmit }) => {
   const validationSchema = createValidationSchema();
 
   return (
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
-      onSubmit={handleSubmit}
+      onSubmit={onSubmit}
     >
       <Form autoComplete="off">
         <label>
