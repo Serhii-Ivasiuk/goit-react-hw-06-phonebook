@@ -22,6 +22,20 @@ export class App extends Component {
   };
 
   handleAddContact = ({ name, number }) => {
+    // checking existing contact name and number
+    const { contacts } = this.state;
+    const isExistName = contacts.some(item => item.name === name);
+    const isExistNumber = contacts.find(item => item.number === number);
+
+    if (isExistName) {
+      return alert(`Contact with name "${name}" is already in contacts`);
+    } else if (isExistNumber) {
+      return alert(
+        `Number "${number}" is already in contacts with name "${isExistNumber.name}"`
+      );
+    }
+
+    // add new contact
     const contact = {
       id: nanoid(),
       name,
@@ -41,6 +55,12 @@ export class App extends Component {
     });
   };
 
+  handleRemoveContact = id => {
+    this.setState(prevState => {
+      return { contacts: prevState.contacts.filter(item => item.id !== id) };
+    });
+  };
+
   getFilteredContacts = () => {
     const { contacts, filter } = this.state;
     const normalizedFilter = filter.toLowerCase();
@@ -51,23 +71,20 @@ export class App extends Component {
   };
 
   render() {
-    const {
-      handleAddContact,
-      handleFilterInput,
-      getFilteredContacts,
-      state: { filter },
-    } = this;
-
-    const filteredContacts = getFilteredContacts();
+    const { filter } = this.state;
+    const filteredContacts = this.getFilteredContacts();
 
     return (
       <Container>
         <h1>Phonebook</h1>
-        <ContactForm addContact={handleAddContact} />
+        <ContactForm onAddContact={this.handleAddContact} />
 
         <h2>Contacts</h2>
-        <Filter value={filter} onChange={handleFilterInput} />
-        <ContactList data={filteredContacts} />
+        <Filter value={filter} onChange={this.handleFilterInput} />
+        <ContactList
+          data={filteredContacts}
+          onRemoveContact={this.handleRemoveContact}
+        />
       </Container>
     );
   }

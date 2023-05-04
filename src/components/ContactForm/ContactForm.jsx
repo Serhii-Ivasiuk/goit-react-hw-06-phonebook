@@ -5,36 +5,41 @@ import * as Yup from 'yup';
 // React components
 // Styled components
 
-// Initial values
 const initialValues = { name: '', number: '' };
 
-// Validation
-const nameRegExp = /^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$/;
-const numberRegExp =
-  /\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}/;
+const createValidationSchema = () => {
+  const nameRegExp =
+    /^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$/;
+  const numberRegExp =
+    /\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}/;
 
-const schema = Yup.object().shape({
-  name: Yup.string()
-    .matches(nameRegExp, 'Invalid name.')
-    .required('Name is required'),
+  return Yup.object().shape({
+    name: Yup.string()
+      .matches(nameRegExp, 'Invalid name.')
+      .required('Name is required'),
 
-  number: Yup.string()
-    .matches(numberRegExp, 'Invalid phone.')
-    .required('Number is required'),
-});
+    number: Yup.string()
+      .matches(numberRegExp, 'Invalid phone.')
+      .required('Number is required'),
+  });
+};
 
-export const ContactForm = ({ addContact }) => {
+export const ContactForm = ({ onAddContact }) => {
+  console.log(onAddContact);
+
   const handleSubmit = (values, actions) => {
     const { resetForm } = actions;
 
-    addContact(values);
+    onAddContact(values);
     resetForm();
   };
+
+  const validationSchema = createValidationSchema();
 
   return (
     <Formik
       initialValues={initialValues}
-      validationSchema={schema}
+      validationSchema={validationSchema}
       onSubmit={handleSubmit}
     >
       <Form autoComplete="off">
