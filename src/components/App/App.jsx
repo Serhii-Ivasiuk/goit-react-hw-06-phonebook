@@ -21,21 +21,30 @@ export class App extends Component {
     filter: '',
   };
 
-  handleAddContact = ({ name, number }) => {
-    // checking existing contact name and number
+  checkExistContact = (name, number) => {
     const { contacts } = this.state;
+
     const isExistName = contacts.some(item => item.name === name);
     const isExistNumber = contacts.find(item => item.number === number);
 
     if (isExistName) {
-      return alert(`Contact with name "${name}" is already in contacts`);
+      alert(`Contact with name "${name}" is already in contacts`);
+      return true;
     } else if (isExistNumber) {
-      return alert(
+      alert(
         `Number "${number}" is already in contacts with name "${isExistNumber.name}"`
       );
+      return true;
+    }
+  };
+
+  handleAddContact = ({ name, number }) => {
+    const isExist = this.checkExistContact(name, number);
+
+    if (isExist) {
+      return;
     }
 
-    // add new contact
     const contact = {
       id: nanoid(),
       name,

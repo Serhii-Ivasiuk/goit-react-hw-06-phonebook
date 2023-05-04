@@ -1,9 +1,10 @@
 // Libs
 import React from 'react';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { Formik, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 // React components
 // Styled components
+import { Input } from './ContactForm.styled';
 
 const initialValues = { name: '', number: '' };
 
@@ -25,8 +26,6 @@ const createValidationSchema = () => {
 };
 
 export const ContactForm = ({ onAddContact }) => {
-  console.log(onAddContact);
-
   const handleSubmit = (values, actions) => {
     const { resetForm } = actions;
 
@@ -45,7 +44,7 @@ export const ContactForm = ({ onAddContact }) => {
       <Form autoComplete="off">
         <label>
           Name
-          <Field
+          <Input
             type="text"
             name="name"
             title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
@@ -56,7 +55,7 @@ export const ContactForm = ({ onAddContact }) => {
         <br />
         <label>
           Number
-          <Field
+          <Input
             type="tel"
             name="number"
             title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
