@@ -1,5 +1,5 @@
 // Libs
-import React from 'react';
+import PropTypes from 'prop-types';
 // React components
 import { ContactListItem } from 'components/ContactListItem/ContactListItem';
 
@@ -19,4 +19,9 @@ export const ContactList = ({ data, onRemoveContact }) => {
       })}
     </ul>
   );
+};
+
+ContactList.propTypes = {
+  data: PropTypes.arrayOf(PropTypes.object),
+  onRemoveContact: PropTypes.func.isRequired,
 };

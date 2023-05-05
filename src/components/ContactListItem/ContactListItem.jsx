@@ -1,5 +1,5 @@
 // Libs
-import React from 'react';
+import PropTypes from 'prop-types';
 
 export const ContactListItem = ({ contactName, contactNumber, onClick }) => {
   return (
@@ -12,4 +12,10 @@ export const ContactListItem = ({ contactName, contactNumber, onClick }) => {
       </button>
     </li>
   );
+};
+
+ContactListItem.propTypes = {
+  contactName: PropTypes.string.isRequired,
+  contactNumber: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired,
 };
