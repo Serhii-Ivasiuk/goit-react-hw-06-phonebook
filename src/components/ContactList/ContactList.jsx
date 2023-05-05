@@ -2,10 +2,12 @@
 import PropTypes from 'prop-types';
 // React components
 import { ContactListItem } from 'components/ContactListItem/ContactListItem';
+// Styled components
+import { List } from './ContactList.styled';
 
 export const ContactList = ({ data, onRemoveContact }) => {
   return (
-    <ul>
+    <List>
       {data.map(({ id, name, number }) => {
         return (
           <ContactListItem
@@ -17,7 +19,7 @@ export const ContactList = ({ data, onRemoveContact }) => {
           />
         );
       })}
-    </ul>
+    </List>
   );
 };
 

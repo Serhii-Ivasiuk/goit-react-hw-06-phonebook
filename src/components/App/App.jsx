@@ -6,7 +6,13 @@ import { ContactForm } from '../ContactForm/ContactForm';
 import { ContactList } from '../ContactList/ContactList';
 import { Filter } from '../Filter/Filter';
 // Styled components
-import { Container } from './App.styled';
+import {
+  Container,
+  Section,
+  MainTitle,
+  SectionTitle,
+  ContactsWrapper,
+} from './App.styled';
 
 const test = [
   { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
@@ -83,15 +89,21 @@ export class App extends Component {
 
     return (
       <Container>
-        <h1>Phonebook</h1>
-        <ContactForm onSubmit={this.handleSubmit} />
+        <Section>
+          <MainTitle>Phonebook</MainTitle>
+          <ContactForm onSubmit={this.handleSubmit} />
+        </Section>
 
-        <h2>Contacts</h2>
-        <Filter value={filter} onChange={this.handleFilterInput} />
-        <ContactList
-          data={filteredContacts}
-          onRemoveContact={this.handleRemoveContact}
-        />
+        <Section>
+          <SectionTitle>Contacts</SectionTitle>
+          <ContactsWrapper>
+            <Filter value={filter} onChange={this.handleFilterInput} />
+            <ContactList
+              data={filteredContacts}
+              onRemoveContact={this.handleRemoveContact}
+            />
+          </ContactsWrapper>
+        </Section>
       </Container>
     );
   }

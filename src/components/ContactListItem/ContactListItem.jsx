@@ -1,16 +1,19 @@
 // Libs
 import PropTypes from 'prop-types';
+// Styled components
+import { ListItem, Text, Number, RemoveBtn } from './ContactListItem.styled';
 
 export const ContactListItem = ({ contactName, contactNumber, onClick }) => {
   return (
-    <li>
-      <span>
-        {contactName}: {contactNumber}
-      </span>
-      <button type="button" onClick={onClick}>
+    <ListItem>
+      <Text>
+        {contactName}: <Number>{contactNumber}</Number>
+      </Text>
+
+      <RemoveBtn type="button" onClick={onClick}>
         Remove
-      </button>
-    </li>
+      </RemoveBtn>
+    </ListItem>
   );
 };
 

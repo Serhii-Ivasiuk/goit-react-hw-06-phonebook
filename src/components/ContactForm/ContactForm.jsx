@@ -1,9 +1,16 @@
 // Libs
 import PropTypes from 'prop-types';
-import { Formik, Form, ErrorMessage } from 'formik';
+import { Formik, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 // Styled components
-import { Input } from './ContactForm.styled';
+import {
+  FormForAddNewContact,
+  Label,
+  LabelText,
+  Input,
+  SubmitBtn,
+  ValidationWrapper,
+} from './ContactForm.styled';
 
 const initialValues = { name: '', number: '' };
 
@@ -33,31 +40,35 @@ export const ContactForm = ({ onSubmit }) => {
       validationSchema={validationSchema}
       onSubmit={onSubmit}
     >
-      <Form autoComplete="off">
-        <label>
-          Name
+      <FormForAddNewContact autoComplete="off">
+        <Label>
+          <LabelText>Name</LabelText>
           <Input
             type="text"
             name="name"
             title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
             required
           />
-          <ErrorMessage name="name" />
-        </label>
-        <br />
-        <label>
-          Number
+          <ValidationWrapper>
+            <ErrorMessage name="name" />
+          </ValidationWrapper>
+        </Label>
+
+        <Label>
+          <LabelText>Number</LabelText>
           <Input
             type="tel"
             name="number"
             title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
             required
           />
-          <ErrorMessage name="number" />
-        </label>
-        <br />
-        <button type="submit">Add contact</button>
-      </Form>
+          <ValidationWrapper>
+            <ErrorMessage name="number" />
+          </ValidationWrapper>
+        </Label>
+
+        <SubmitBtn type="submit">Add contact</SubmitBtn>
+      </FormForAddNewContact>
     </Formik>
   );
 };
