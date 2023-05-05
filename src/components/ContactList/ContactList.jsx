@@ -1,19 +1,20 @@
 // Libs
 import React from 'react';
+// React components
+import { ContactListItem } from 'components/ContactListItem/ContactListItem';
 
 export const ContactList = ({ data, onRemoveContact }) => {
   return (
     <ul>
       {data.map(({ id, name, number }) => {
         return (
-          <li key={id}>
-            <span>
-              {name}: {number}
-            </span>
-            <button type="button" onClick={() => onRemoveContact(id)}>
-              Remove
-            </button>
-          </li>
+          <ContactListItem
+            key={id}
+            id={id}
+            contactName={name}
+            contactNumber={number}
+            onClick={() => onRemoveContact(id)}
+          />
         );
       })}
     </ul>
