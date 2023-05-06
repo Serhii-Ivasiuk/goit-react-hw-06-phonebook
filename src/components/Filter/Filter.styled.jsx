@@ -7,7 +7,7 @@ export const Label = styled.label`
   width: 100%;
 `;
 
-export const LabelText = styled.span`
+export const InputHeading = styled.span`
   margin-bottom: 4px;
   font-weight: 700;
   padding: 0 16px;

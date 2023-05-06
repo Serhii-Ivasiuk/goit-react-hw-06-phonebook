@@ -12,6 +12,7 @@ import {
   MainTitle,
   SectionTitle,
   ContactsWrapper,
+  NoContactsMessage,
 } from './App.styled';
 
 const test = [
@@ -84,7 +85,7 @@ export class App extends Component {
   };
 
   render() {
-    const { filter } = this.state;
+    const { contacts, filter } = this.state;
     const filteredContacts = this.getFilteredContacts();
 
     return (
@@ -97,11 +98,20 @@ export class App extends Component {
         <Section>
           <SectionTitle>Contacts</SectionTitle>
           <ContactsWrapper>
-            <Filter value={filter} onChange={this.handleFilterInput} />
-            <ContactList
-              data={filteredContacts}
-              onRemoveContact={this.handleRemoveContact}
-            />
+            {contacts.length ? (
+              <>
+                <Filter value={filter} onChange={this.handleFilterInput} />
+                <ContactList
+                  data={filteredContacts}
+                  onRemoveContact={this.handleRemoveContact}
+                />
+              </>
+            ) : (
+              <NoContactsMessage>
+                There is no contacts yet. Use the form above to add your first
+                contact.
+              </NoContactsMessage>
+            )}
           </ContactsWrapper>
         </Section>
       </Container>

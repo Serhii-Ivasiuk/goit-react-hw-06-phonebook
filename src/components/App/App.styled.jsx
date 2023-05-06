@@ -12,7 +12,7 @@ export const Container = styled.div`
   color: DarkSlateGray;
 `;
 
-export const Section = styled.section`
+export const Section = styled.div`
   display: flex;
   flex-direction: column;
   gap: 4px;
@@ -33,4 +33,10 @@ export const ContactsWrapper = styled.div`
   border: 1px solid #505050;
   padding: 16px;
   border-radius: 12px;
+`;
+
+export const NoContactsMessage = styled.p`
+  font-weight: 700;
+  text-align: center;
+  color: #ff6347;
 `;

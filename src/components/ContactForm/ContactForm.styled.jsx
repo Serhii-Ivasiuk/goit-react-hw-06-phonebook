@@ -1,8 +1,8 @@
 // Libs
 import styled from '@emotion/styled';
-import { Form, Field } from 'formik';
+import { Form, Field, ErrorMessage } from 'formik';
 
-export const FormForAddNewContact = styled(Form)`
+export const AddContactForm = styled(Form)`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -16,18 +16,17 @@ export const FormForAddNewContact = styled(Form)`
 export const Label = styled.label`
   display: flex;
   flex-direction: column;
+  gap: 4px;
   width: 100%;
 `;
 
-export const LabelText = styled.span`
-  margin-bottom: 4px;
+export const InputHeading = styled.span`
   padding-left: 16px;
   font-weight: 700;
 `;
 
 export const Input = styled(Field)`
   height: 32px;
-  margin-bottom: 4px;
   padding: 16px;
   font-size: 16px;
   color: #505050;
@@ -52,9 +51,14 @@ export const SubmitBtn = styled.button`
   &:focus {
     background-color: #006f00;
   }
+
+  :disabled {
+    cursor: initial;
+    background-color: #505050;
+  }
 `;
 
-export const ValidationWrapper = styled.div`
-  color: #ff6347;
+export const ValidationMessage = styled(ErrorMessage)`
   padding: 0 16px;
+  color: #ff6347;
 `;
