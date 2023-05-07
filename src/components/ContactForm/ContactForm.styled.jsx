@@ -33,6 +33,7 @@ export const Input = styled(Field)`
   border: none;
   border-radius: 8px;
   outline: 1px solid #505050;
+  outline-offset: -1px;
 
   &:focus {
     outline: 2px solid #505050;
@@ -41,6 +42,7 @@ export const Input = styled(Field)`
 
   &.invalid {
     outline: 1px solid #fc8181;
+    outline-offset: -1px;
 
     &:focus {
       outline: 2px solid #fc8181;
