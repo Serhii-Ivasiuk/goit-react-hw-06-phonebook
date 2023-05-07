@@ -38,5 +38,5 @@ export const ContactsWrapper = styled.div`
 export const NoContactsMessage = styled.p`
   font-weight: 700;
   text-align: center;
-  color: #ff6347;
+  color: #fc8181;
 `;

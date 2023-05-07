@@ -30,8 +30,23 @@ export const Input = styled(Field)`
   padding: 16px;
   font-size: 16px;
   color: #505050;
-  border: 1px solid #505050;
+  border: none;
   border-radius: 8px;
+  outline: 1px solid #505050;
+
+  &:focus {
+    outline: 2px solid #505050;
+    outline-offset: -2px;
+  }
+
+  &.invalid {
+    outline: 1px solid #fc8181;
+
+    &:focus {
+      outline: 2px solid #fc8181;
+      outline-offset: -2px;
+    }
+  }
 `;
 
 export const SubmitBtn = styled.button`
@@ -60,5 +75,5 @@ export const SubmitBtn = styled.button`
 
 export const ValidationMessage = styled(ErrorMessage)`
   padding: 0 16px;
-  color: #ff6347;
+  color: #fc8181;
 `;

@@ -12,7 +12,6 @@ export const ContactList = ({ data, onRemoveContact }) => {
         return (
           <ContactListItem
             key={id}
-            id={id}
             contactName={name}
             contactNumber={number}
             onClick={() => onRemoveContact(id)}

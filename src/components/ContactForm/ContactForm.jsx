@@ -46,32 +46,36 @@ export const ContactForm = ({ onSubmit }) => {
       validationSchema={validationSchema}
       onSubmit={onSubmit}
     >
-      {({ dirty, isValid }) => (
-        <AddContactForm autoComplete="off">
-          <Label>
-            <InputHeading>Name</InputHeading>
-            <Input
-              type="text"
-              name="name"
-              title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-            />
-            <ValidationMessage name="name" component="span" />
-          </Label>
-          <Label>
-            <InputHeading>Number</InputHeading>
-            <Input
-              type="tel"
-              name="number"
-              title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-            />
+      {({ dirty, isValid, errors, touched }) => {
+        return (
+          <AddContactForm autoComplete="off">
+            <Label>
+              <InputHeading>Name</InputHeading>
+              <Input
+                type="text"
+                name="name"
+                title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
+                className={errors.name && touched.name && 'invalid'}
+              />
+              <ValidationMessage name="name" component="span" />
+            </Label>
+            <Label>
+              <InputHeading>Number</InputHeading>
+              <Input
+                type="tel"
+                name="number"
+                title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
+                className={errors.number && touched.number && 'invalid'}
+              />
 
-            <ValidationMessage name="number" component="span" />
-          </Label>
-          <SubmitBtn disabled={!dirty || !isValid} type="submit">
-            Add contact
-          </SubmitBtn>
-        </AddContactForm>
-      )}
+              <ValidationMessage name="number" component="span" />
+            </Label>
+            <SubmitBtn disabled={!dirty || !isValid} type="submit">
+              Add contact
+            </SubmitBtn>
+          </AddContactForm>
+        );
+      }}
     </Formik>
   );
 };
