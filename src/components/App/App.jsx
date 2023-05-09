@@ -107,6 +107,9 @@ export class App extends Component {
   render() {
     const { contacts, filter } = this.state;
     const filteredContacts = this.getFilteredContacts();
+    const sortedFilteredContscts = [...filteredContacts].sort((a, b) =>
+      a.name.localeCompare(b.name)
+    );
 
     return (
       <Container>
@@ -122,7 +125,7 @@ export class App extends Component {
               <>
                 <Filter value={filter} onChange={this.handleFilterInput} />
                 <ContactList
-                  data={filteredContacts}
+                  data={sortedFilteredContscts}
                   onRemoveContact={this.handleRemoveContact}
                 />
               </>
