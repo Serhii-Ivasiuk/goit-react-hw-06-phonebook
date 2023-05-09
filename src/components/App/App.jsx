@@ -94,7 +94,7 @@ export class App extends Component {
   };
 
   // Сomputed properties
-  getFilteredContacts = () => {
+  filterContacts = () => {
     const { contacts, filter } = this.state;
 
     const normalizedFilter = filter.toLowerCase();
@@ -104,12 +104,15 @@ export class App extends Component {
     );
   };
 
+  sortContacts = contactsList => {
+    return [...contactsList].sort((a, b) => a.name.localeCompare(b.name));
+  };
+
   render() {
     const { contacts, filter } = this.state;
-    const filteredContacts = this.getFilteredContacts();
-    const sortedFilteredContscts = [...filteredContacts].sort((a, b) =>
-      a.name.localeCompare(b.name)
-    );
+
+    const filteredContscts = this.filterContacts();
+    const sortedContacts = this.sortContacts(filteredContscts);
 
     return (
       <Container>
@@ -125,7 +128,7 @@ export class App extends Component {
               <>
                 <Filter value={filter} onChange={this.handleFilterInput} />
                 <ContactList
-                  data={sortedFilteredContscts}
+                  data={sortedContacts}
                   onRemoveContact={this.handleRemoveContact}
                 />
               </>
