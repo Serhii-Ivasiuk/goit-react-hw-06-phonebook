@@ -27,21 +27,17 @@ export class App extends Component {
   componentDidMount() {
     const savedContacts = localStorage.getItem(LS_KEY_CONTACTS);
 
-    if (!savedContacts) return;
-
-    const parsedContacts = JSON.parse(savedContacts);
-
-    if (parsedContacts.length) {
-      this.setState({ contacts: parsedContacts });
+    if (savedContacts) {
+      this.setState({ contacts: JSON.parse(savedContacts) });
     }
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(_, prevState) {
     const { contacts } = this.state;
 
-    const contactList = JSON.stringify(contacts);
-
-    localStorage.setItem(LS_KEY_CONTACTS, contactList);
+    if (prevState.contacts.length !== contacts.length) {
+      localStorage.setItem(LS_KEY_CONTACTS, JSON.stringify(contacts));
+    }
   }
 
   // Handlers
