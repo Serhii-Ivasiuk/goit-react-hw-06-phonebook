@@ -55,7 +55,7 @@ export const ContactForm = ({ onSubmit }) => {
                 type="text"
                 name="name"
                 title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-                className={errors.name && touched.name && 'invalid'}
+                validate={errors.name && touched.name}
               />
               <ValidationMessage name="name" component="span" />
             </Label>
@@ -65,7 +65,7 @@ export const ContactForm = ({ onSubmit }) => {
                 type="tel"
                 name="number"
                 title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-                className={errors.number && touched.number && 'invalid'}
+                validate={errors.number && touched.number}
               />
 
               <ValidationMessage name="number" component="span" />

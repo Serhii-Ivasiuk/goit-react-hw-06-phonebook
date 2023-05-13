@@ -32,22 +32,14 @@ export const Input = styled(Field)`
   color: #505050;
   border: none;
   border-radius: 8px;
-  outline: 1px solid #505050;
+  outline: ${({ validate }) =>
+    validate ? '1px solid #fc8181' : '1px solid #505050'};
   outline-offset: -1px;
 
   &:focus {
-    outline: 2px solid #505050;
+    outline: ${({ validate }) =>
+      validate ? '2px solid #fc8181' : '2px solid #505050'};
     outline-offset: -2px;
-  }
-
-  &.invalid {
-    outline: 1px solid #fc8181;
-    outline-offset: -1px;
-
-    &:focus {
-      outline: 2px solid #fc8181;
-      outline-offset: -2px;
-    }
   }
 `;
 
