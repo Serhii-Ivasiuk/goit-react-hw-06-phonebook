@@ -1,5 +1,5 @@
 // Libs
-import React, { Component } from 'react';
+import { useState, useEffect } from 'react';
 import { nanoid } from 'nanoid';
 // React components
 import { ContactForm } from '../ContactForm/ContactForm';
@@ -17,34 +17,25 @@ import {
 
 const LS_KEY_CONTACTS = 'phonebook_contact_list';
 
-export class App extends Component {
-  state = {
-    contacts: [],
-    filter: '',
-  };
+export function App() {
+  const [contacts, setContacts] = useState(() => {
+    return JSON.parse(localStorage.getItem(LS_KEY_CONTACTS)) ?? [];
+  });
+  const [filter, setFilter] = useState('');
 
-  // Lifecycle methods
-  componentDidMount() {
-    const savedContacts = localStorage.getItem(LS_KEY_CONTACTS);
-
-    if (savedContacts) {
-      this.setState({ contacts: JSON.parse(savedContacts) });
-    }
-  }
-
-  componentDidUpdate(_, prevState) {
-    const { contacts } = this.state;
-
-    if (prevState.contacts.length !== contacts.length) {
+  // Effects
+  useEffect(() => {
+    if (contacts.length === 0) {
+      localStorage.removeItem(LS_KEY_CONTACTS);
+    } else {
       localStorage.setItem(LS_KEY_CONTACTS, JSON.stringify(contacts));
     }
-  }
+  }, [contacts]);
 
   // Handlers
-  handleSubmit = (values, actions) => {
+  const handleSubmit = (values, actions) => {
     const { name, number } = values;
     const { resetForm } = actions;
-    const { contacts } = this.state;
 
     const isExistName = contacts.some(item => item.name === name);
     const isExistNumber = contacts.find(item => item.number === number);
@@ -57,87 +48,63 @@ export class App extends Component {
       );
     }
 
-    this.addNewContact(name, number);
+    const addNewContact = (name, number) => {
+      const contact = {
+        id: nanoid(),
+        name,
+        number,
+      };
+
+      setContacts(prevState => [contact, ...prevState]);
+    };
+
+    addNewContact(name, number);
 
     resetForm();
   };
 
-  handleFilterInput = event => {
-    const filterValue = event.target.value;
-
-    this.setState({
-      filter: filterValue,
-    });
+  const handleFilterInput = event => {
+    setFilter(event.target.value);
   };
 
-  handleRemoveContact = id => {
-    this.setState(prevState => {
-      return { contacts: prevState.contacts.filter(item => item.id !== id) };
-    });
-  };
-
-  // Functions for handlers
-  addNewContact = (name, number) => {
-    const contact = {
-      id: nanoid(),
-      name,
-      number,
-    };
-
-    this.setState(prevState => {
-      return { contacts: [contact, ...prevState.contacts] };
-    });
+  const handleRemoveContact = id => {
+    setContacts(prevState => prevState.filter(item => item.id !== id));
   };
 
   // Сomputed properties
-  filterContacts = () => {
-    const { contacts, filter } = this.state;
+  const filteredAndSortedContacts = (() => {
+    return contacts
+      .filter(item => item.name.toLowerCase().includes(filter.toLowerCase()))
+      .sort((a, b) => a.name.localeCompare(b.name));
+  })();
 
-    const normalizedFilter = filter.toLowerCase();
+  return (
+    <Container>
+      <Section>
+        <MainTitle>Phonebook</MainTitle>
+        <ContactForm onSubmit={handleSubmit} />
+      </Section>
 
-    return contacts.filter(item =>
-      item.name.toLowerCase().includes(filter.toLowerCase(normalizedFilter))
-    );
-  };
-
-  sortContacts = contactsList => {
-    return [...contactsList].sort((a, b) => a.name.localeCompare(b.name));
-  };
-
-  render() {
-    const { contacts, filter } = this.state;
-
-    const filteredContscts = this.filterContacts();
-    const sortedContacts = this.sortContacts(filteredContscts);
-
-    return (
-      <Container>
-        <Section>
-          <MainTitle>Phonebook</MainTitle>
-          <ContactForm onSubmit={this.handleSubmit} />
-        </Section>
-
-        <Section>
-          <SectionTitle>Contacts</SectionTitle>
-          <ContactsWrapper>
-            {contacts.length !== 0 && (
-              <>
-                <Filter value={filter} onChange={this.handleFilterInput} />
-                <ContactList
-                  data={sortedContacts}
-                  onRemoveContact={this.handleRemoveContact}
-                />
-              </>
-            )}
-            {contacts.length === 0 && (
-              <NoContactsMessage>
-                There is no contacts yet. Use the form above to add your first
-                contact.
-              </NoContactsMessage>
-            )}
-          </ContactsWrapper>
-        </Section>
-      </Container>
-    );
-  }
+      <Section>
+        <SectionTitle>Contacts</SectionTitle>
+        <ContactsWrapper>
+          {contacts.length !== 0 && (
+            <>
+              <Filter value={filter} onChange={handleFilterInput} />
+              <ContactList
+                data={filteredAndSortedContacts}
+                onRemoveContact={handleRemoveContact}
+              />
+            </>
+          )}
+          {contacts.length === 0 && (
+            <NoContactsMessage>
+              There is no contacts yet. Use the form above to add your first
+              contact.
+            </NoContactsMessage>
+          )}
+        </ContactsWrapper>
+      </Section>
+    </Container>
+  );
 }
