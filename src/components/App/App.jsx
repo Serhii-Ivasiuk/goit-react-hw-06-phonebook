@@ -48,17 +48,13 @@ export function App() {
       );
     }
 
-    const addNewContact = (name, number) => {
-      const contact = {
-        id: nanoid(),
-        name,
-        number,
-      };
-
-      setContacts(prevState => [contact, ...prevState]);
+    const contact = {
+      id: nanoid(),
+      name,
+      number,
     };
 
-    addNewContact(name, number);
+    setContacts(prevState => [contact, ...prevState]);
 
     resetForm();
   };
