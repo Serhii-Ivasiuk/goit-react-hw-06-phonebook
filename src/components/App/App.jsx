@@ -1,6 +1,12 @@
 // Libs
-import { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { nanoid } from 'nanoid';
+// Redux actions
+import {
+  addContact,
+  removeContact,
+  filterContacts,
+} from '../../redux/contactsSlice';
 // React components
 import { ContactForm } from '../ContactForm/ContactForm';
 import { ContactList } from '../ContactList/ContactList';
@@ -15,22 +21,10 @@ import {
   NoContactsMessage,
 } from './App.styled';
 
-const LS_KEY_CONTACTS = 'phonebook_contact_list';
-
 export function App() {
-  const [contacts, setContacts] = useState(() => {
-    return JSON.parse(localStorage.getItem(LS_KEY_CONTACTS)) ?? [];
-  });
-  const [filter, setFilter] = useState('');
-
-  // Effects
-  useEffect(() => {
-    if (contacts.length === 0) {
-      localStorage.removeItem(LS_KEY_CONTACTS);
-    } else {
-      localStorage.setItem(LS_KEY_CONTACTS, JSON.stringify(contacts));
-    }
-  }, [contacts]);
+  const contacts = useSelector(state => state.contacts.contacts);
+  const filter = useSelector(state => state.contacts.filter);
+  const dispatch = useDispatch();
 
   // Handlers
   const handleSubmit = (values, actions) => {
@@ -54,17 +48,17 @@ export function App() {
       number,
     };
 
-    setContacts(prevState => [contact, ...prevState]);
+    dispatch(addContact(contact));
 
     resetForm();
   };
 
   const handleFilterInput = event => {
-    setFilter(event.target.value);
+    dispatch(filterContacts(event.target.value));
   };
 
   const handleRemoveContact = id => {
-    setContacts(prevState => prevState.filter(item => item.id !== id));
+    dispatch(removeContact(id));
   };
 
   // Сomputed properties
