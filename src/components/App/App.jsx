@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { nanoid } from 'nanoid';
 // Redux actions
 import { addContact, removeContact } from 'redux/contactsSlice';
-import { filterContacts } from 'redux/filterContactsSlice';
+import { filterContacts } from 'redux/filterSlice';
 // React components
 import { ContactForm } from '../ContactForm/ContactForm';
 import { ContactList } from '../ContactList/ContactList';
