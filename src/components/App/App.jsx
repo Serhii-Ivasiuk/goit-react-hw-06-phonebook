@@ -1,9 +1,10 @@
 // Libs
 import { useSelector, useDispatch } from 'react-redux';
-import { nanoid } from 'nanoid';
 // Redux actions
 import { addContact, removeContact } from 'redux/contactsSlice';
 import { filterContacts } from 'redux/filterSlice';
+// Redux selectors
+import { getContacts, getFilter } from 'redux/selectors';
 // React components
 import { ContactForm } from '../ContactForm/ContactForm';
 import { ContactList } from '../ContactList/ContactList';
@@ -19,8 +20,8 @@ import {
 } from './App.styled';
 
 export function App() {
-  const contacts = useSelector(state => state.contacts.contacts);
-  const filter = useSelector(state => state.filter.filter);
+  const contacts = useSelector(getContacts);
+  const filter = useSelector(getFilter);
   const dispatch = useDispatch();
 
   // Handlers
@@ -39,13 +40,7 @@ export function App() {
       );
     }
 
-    const contact = {
-      id: nanoid(),
-      name,
-      number,
-    };
-
-    dispatch(addContact(contact));
+    dispatch(addContact(name, number));
 
     resetForm();
   };
