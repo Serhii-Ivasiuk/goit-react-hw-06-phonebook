@@ -18,7 +18,6 @@ import filterContactsReducer from 'redux/filterContactsSlice';
 const persistConfig = {
   key: 'phonebook_contact_list',
   storage,
-  blacklist: ['filter'],
 };
 
 const persisteContactsReducer = persistReducer(persistConfig, contactsReducer);
