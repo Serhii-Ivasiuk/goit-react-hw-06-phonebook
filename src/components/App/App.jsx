@@ -2,11 +2,8 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { nanoid } from 'nanoid';
 // Redux actions
-import {
-  addContact,
-  removeContact,
-  filterContacts,
-} from '../../redux/contactsSlice';
+import { addContact, removeContact } from 'redux/contactsSlice';
+import { filterContacts } from 'redux/filterContactsSlice';
 // React components
 import { ContactForm } from '../ContactForm/ContactForm';
 import { ContactList } from '../ContactList/ContactList';
@@ -23,7 +20,7 @@ import {
 
 export function App() {
   const contacts = useSelector(state => state.contacts.contacts);
-  const filter = useSelector(state => state.contacts.filter);
+  const filter = useSelector(state => state.filter.filter);
   const dispatch = useDispatch();
 
   // Handlers
