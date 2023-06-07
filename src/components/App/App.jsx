@@ -1,11 +1,11 @@
 // Libs
 import { useSelector } from 'react-redux';
-// Redux selectors
-import { getContacts } from 'redux/selectors';
 // React components
 import { ContactForm } from '../ContactForm/ContactForm';
 import { ContactList } from '../ContactList/ContactList';
 import { Filter } from '../Filter/Filter';
+// Redux selectors
+import { getContacts } from 'redux/selectors';
 // Styled components
 import {
   Container,
@@ -16,7 +16,7 @@ import {
   NoContactsMessage,
 } from './App.styled';
 
-export function App() {
+export const App = () => {
   const contacts = useSelector(getContacts);
 
   return (
@@ -45,4 +45,4 @@ export function App() {
       </Section>
     </Container>
   );
-}
+};

@@ -2,6 +2,10 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
+// Redux selectors
+import { getContacts } from 'redux/selectors';
+// Redux actions
+import { addContact } from 'redux/contactsSlice';
 // Styled components
 import {
   AddContactForm,
@@ -11,10 +15,6 @@ import {
   SubmitBtn,
   ValidationMessage,
 } from './ContactForm.styled';
-// Redux selectors
-import { getContacts } from 'redux/selectors';
-// Redux actions
-import { addContact } from 'redux/contactsSlice';
 
 const initialValues = { name: '', number: '' };
 
@@ -92,7 +92,6 @@ export const ContactForm = () => {
                 title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
                 validate={errors.number && touched.number}
               />
-
               <ValidationMessage name="number" component="span" />
             </Label>
             <SubmitBtn disabled={!dirty || !isValid} type="submit">
