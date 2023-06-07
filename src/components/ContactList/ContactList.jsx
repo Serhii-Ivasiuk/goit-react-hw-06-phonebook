@@ -1,28 +1,39 @@
 // Libs
-import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
 // React components
 import { ContactListItem } from 'components/ContactListItem/ContactListItem';
 // Styled components
 import { List } from './ContactList.styled';
+// Redux actions
+import { removeContact } from 'redux/contactsSlice';
+// Redux selectors
+import { getContacts, getFilter } from 'redux/selectors';
 
-export const ContactList = ({ data, onRemoveContact }) => {
+export const ContactList = () => {
+  const contacts = useSelector(getContacts);
+  const filter = useSelector(getFilter);
+  const dispatch = useDispatch();
+
+  const handleRemoveContact = id => {
+    dispatch(removeContact(id));
+  };
+
+  const filteredAndSortedContacts = contacts
+    .filter(item => item.name.toLowerCase().includes(filter.toLowerCase()))
+    .sort((a, b) => a.name.localeCompare(b.name));
+
   return (
     <List>
-      {data.map(({ id, name, number }) => {
+      {filteredAndSortedContacts.map(({ id, name, number }) => {
         return (
           <ContactListItem
             key={id}
             contactName={name}
             contactNumber={number}
-            onClick={() => onRemoveContact(id)}
+            onClick={() => handleRemoveContact(id)}
           />
         );
       })}
     </List>
   );
-};
-
-ContactList.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.object),
-  onRemoveContact: PropTypes.func.isRequired,
 };

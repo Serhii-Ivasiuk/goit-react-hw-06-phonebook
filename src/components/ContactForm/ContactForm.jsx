@@ -1,5 +1,5 @@
 // Libs
-import PropTypes from 'prop-types';
+import { useSelector, useDispatch } from 'react-redux';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 // Styled components
@@ -11,10 +11,14 @@ import {
   SubmitBtn,
   ValidationMessage,
 } from './ContactForm.styled';
+// Redux selectors
+import { getContacts } from 'redux/selectors';
+// Redux actions
+import { addContact } from 'redux/contactsSlice';
 
 const initialValues = { name: '', number: '' };
 
-const createValidationSchema = () => {
+const validationSchema = (() => {
   const nameRegExp =
     /^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$/;
   const numberRegExp =
@@ -35,16 +39,37 @@ const createValidationSchema = () => {
       )
       .required('Number is required'),
   });
-};
+})();
 
-export const ContactForm = ({ onSubmit }) => {
-  const validationSchema = createValidationSchema();
+export const ContactForm = () => {
+  const contacts = useSelector(getContacts);
+  const dispatch = useDispatch();
+
+  const handleSubmit = (values, actions) => {
+    const { name, number } = values;
+    const { resetForm } = actions;
+
+    const isExistName = contacts.some(item => item.name === name);
+    const isExistNumber = contacts.find(item => item.number === number);
+
+    if (isExistName) {
+      return alert(`Contact with name "${name}" is already in contacts`);
+    } else if (isExistNumber) {
+      return alert(
+        `Number "${number}" is already in contacts with name "${isExistNumber.name}"`
+      );
+    }
+
+    dispatch(addContact(name, number));
+
+    resetForm();
+  };
 
   return (
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
-      onSubmit={onSubmit}
+      onSubmit={handleSubmit}
     >
       {({ dirty, isValid, errors, touched }) => {
         return (
@@ -78,8 +103,4 @@ export const ContactForm = ({ onSubmit }) => {
       }}
     </Formik>
   );
-};
-
-ContactForm.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
 };
