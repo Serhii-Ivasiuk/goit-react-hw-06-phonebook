@@ -63,6 +63,8 @@ export const ContactForm = () => {
     dispatch(addContact(name, number));
 
     resetForm();
+
+    document.activeElement.blur();
   };
 
   return (
