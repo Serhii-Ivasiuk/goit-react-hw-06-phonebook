@@ -72,6 +72,7 @@ export const ContactForm = () => {
       initialValues={initialValues}
       validationSchema={validationSchema}
       onSubmit={handleSubmit}
+      validateOnBlur={false}
     >
       {({ dirty, isValid, errors, touched }) => {
         return (
